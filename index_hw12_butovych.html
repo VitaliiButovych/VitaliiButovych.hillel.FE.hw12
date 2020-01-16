@@ -1,0 +1,158 @@
+<html>
+<head>
+    <title>JAVASCRIPT hw12</title>
+</head>
+<body>
+    <script>
+        // ЗАДАНИЯ ДЛЯ РАЗМИНКИ!!!!!!)))
+
+        //1) Есть функция, которая может принять неограниченное количество аргументов'-', '65', 'a', 'p', реализуйте ее так, что бы она находила дефиз и возвращала '65-a-p'
+        function getString(...arr) {
+            ///ваш код
+        }
+        getString('-', '65', 'a', 'p'); // 65-a-p
+        getString('75', '-', 'ad', 'hg', '543'); // 75-ad-hg-543
+
+        //2)  Перехватит ли catch здесь ошибку
+        new Promise((resolve, reject) => {
+        resolve('dffsd')
+        }).then((vasia) => { 
+            var df= dfdf; // да, перехватит - ошибка вот она синтаксическая
+            return 3423;
+        })
+        .catch((e)=> console.log('fdsfd', e));
+         // или здесь
+         new Promise((resolve, reject) => {
+        resolve('dffsd')
+        }).then((vasia) => { 
+            throw new Error('new errror'); // да, вот явно бросаем ошибку 
+            return 3423;
+        })
+        .catch((e)=> console.log('fdsfd', e));
+
+        // 3) Взял с проекта код!! Нужно всего лишь переписать на async await :) Запускать не нужно ибо не сработает), просто переписать а я посмотрю!
+        let uploadedImage ='_.jpg';
+        // function pickImage() {
+        //     let context = imagepicker.create({
+        //         mode: 'single'
+        //     });
+        //     context
+        //         .authorize()
+        //         .then(() => {
+        //             return context.present();
+        //         })
+        //         .then((selection) => {
+        //             selection.forEach((selected) => {
+        //                 uploadedImage= selected;
+        //                 cropImage();
+        //             });
+        //         });
+        // }
+
+        async function pickImage() {
+            try {
+                let context = imagepicker.create({
+                    mode: 'single'
+                });
+                const isAuthorized = await context.authorize();
+                const selection = context.present();
+                for (const selected of selection) {
+                    uploadedImage = selected;
+                    await cropImage();
+                    takePhoto();
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        }
+        async function cropImage() {
+            const source = new imageSource.ImageSource();
+            const _source = await source.fromAsset(this.uploadedImage);
+            const args = await this.imageCropper
+                    .show(source, cropOptions);
+            if (args.image !== null) {
+                savePictureToFile(args.image);
+            }
+        }
+        async function takePhoto() {
+            try {
+                await camera.requestPermissions();
+                const imageAsset = await camera.takePicture();
+                uploadedImage = imageAsset;
+                await cropImage();
+            } catch(e) {
+                console.log(e);
+            }
+            
+        }
+
+        /**
+         * Takes camera photo
+         */
+        // function takePhoto() {
+        //     camera.requestPermissions().then(() => {
+        //         camera.takePicture()
+        //             .then((imageAsset) => {
+        //                 uploadedImage = imageAsset;
+        //                 cropImage();
+        //             });
+        //     });
+        // }
+
+        /**
+         * Crops picture
+         */
+        //  function cropImage() {
+        //     let source = new imageSource.ImageSource();
+        //     source.fromAsset(this.uploadedImage).then(source => {
+        //         this.imageCropper
+        //             .show(source, cropOptions)
+        //             .then(args => {
+        //                 if (args.image !== null) {
+        //                     savePictureToFile(args.image);
+        //                 }
+        //             });
+        //     });
+        // }
+
+        /**
+         * Crops picture
+         */
+         function savePictureToFile(image) {
+            const folder = fs.knownFolders.documents();
+            const path = fs.path.join(folder.path, "Temp" + Date.now() + ".png");
+            const saved = image.saveToFile(path, "png");
+            if (saved) {
+                this.currentImage = image;
+                this.pictureSelected.emit(path);
+            }
+        }
+
+        function cropOptions() {
+            return isAndroid ? {
+                width: 512,
+                height: 512
+            } : {
+                    lockSquare: true
+                };
+        }
+        pickImage()
+
+        // 4) И закрепляем промисы  
+        // https://playwithpromise.herokuapp.com/api/order-review/last -
+         setTimeout(() => {
+             // вернуть строку https://playwithpromise.herokuapp.com/api/order-review/last через 3 секунды и только тогда сделать запрос по этой строке!
+         }, 3000)
+
+        // 5) Ну и последнее так уже чтобы расслабиться)! Пишем свой собственный push!!
+        function push(array) {
+            for(let i = 0; i < array2.length; i++) {
+                array[array.length + i] = array2[i];
+            }
+            return array;
+        }
+        //__________________________________________
+        
+    </script>
+</body>
+</html>
